@@ -1,0 +1,21 @@
+{
+  "name": "simple-comments",
+  "version": "1.0.0",
+  "description": "로그인 없이 어디서나 사용 가능한 임베딩형 댓글 서비스",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx http-server public -p 3000 -o",
+    "build": "echo 'No build step required'",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {
+    "vercel": "^32.0.0",
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
