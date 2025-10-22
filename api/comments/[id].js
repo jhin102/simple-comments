@@ -1,4 +1,4 @@
-import { sql } from '@vercel/postgres';
+import pool from '../../lib/db.js';
 import bcrypt from 'bcryptjs';
 
 export default async function handler(req, res) {
@@ -40,11 +40,12 @@ async function deleteComment(req, res) {
     
     try {
         // 댓글 조회
-        const commentResult = await sql`
-            SELECT comment_id, password_hash, ip as comment_ip
+        const commentResult = await pool.query(
+            `SELECT comment_id, password_hash, ip as comment_ip
             FROM comments 
-            WHERE comment_id = ${commentId}
-        `;
+            WHERE comment_id = $1`,
+            [commentId]
+        );
         
         if (commentResult.rows.length === 0) {
             return res.status(404).json({
@@ -74,9 +75,10 @@ async function deleteComment(req, res) {
         }
         
         // 댓글 삭제
-        await sql`
-            DELETE FROM comments WHERE comment_id = ${commentId}
-        `;
+        await pool.query(
+            `DELETE FROM comments WHERE comment_id = $1`,
+            [commentId]
+        );
         
         res.status(200).json({
             success: true,

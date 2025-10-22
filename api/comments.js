@@ -1,4 +1,4 @@
-import { sql } from '@vercel/postgres';
+import pool from '../lib/db.js';
 import bcrypt from 'bcryptjs';
 
 export default async function handler(req, res) {
@@ -45,7 +45,7 @@ async function getComments(req, res) {
     
     try {
         // 댓글 테이블이 없으면 생성
-        await sql`
+        await pool.query(`
             CREATE TABLE IF NOT EXISTS comments (
                 comment_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
                 page_id VARCHAR(255) NOT NULL,
@@ -55,27 +55,29 @@ async function getComments(req, res) {
                 ip VARCHAR(45) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
-        `;
+        `);
         
         // 인덱스 생성 (성능 최적화)
-        await sql`
+        await pool.query(`
             CREATE INDEX IF NOT EXISTS idx_comments_page_created 
             ON comments (page_id, created_at DESC)
-        `;
+        `);
         
         // 댓글 조회 (최신순)
-        const commentsResult = await sql`
-            SELECT comment_id, nickname, content, ip, created_at
+        const commentsResult = await pool.query(
+            `SELECT comment_id, nickname, content, ip, created_at
             FROM comments 
-            WHERE page_id = ${id}
+            WHERE page_id = $1
             ORDER BY created_at DESC
-            LIMIT ${maxPerPage} OFFSET ${offset}
-        `;
+            LIMIT $2 OFFSET $3`,
+            [id, maxPerPage, offset]
+        );
         
         // 총 댓글 수 조회
-        const totalResult = await sql`
-            SELECT COUNT(*) as total FROM comments WHERE page_id = ${id}
-        `;
+        const totalResult = await pool.query(
+            `SELECT COUNT(*) as total FROM comments WHERE page_id = $1`,
+            [id]
+        );
         
         const total = parseInt(totalResult.rows[0].total);
         
@@ -138,12 +140,13 @@ async function createComment(req, res) {
     
     // Rate limiting 체크 (같은 IP에서 10초당 1개 댓글 제한)
     try {
-        const recentComment = await sql`
-            SELECT created_at FROM comments 
-            WHERE ip = ${ip} 
+        const recentComment = await pool.query(
+            `SELECT created_at FROM comments 
+            WHERE ip = $1 
             ORDER BY created_at DESC 
-            LIMIT 1
-        `;
+            LIMIT 1`,
+            [ip]
+        );
         
         if (recentComment.rows.length > 0) {
             const lastCommentTime = new Date(recentComment.rows[0].created_at);
@@ -164,7 +167,7 @@ async function createComment(req, res) {
     
     try {
         // 댓글 테이블이 없으면 생성
-        await sql`
+        await pool.query(`
             CREATE TABLE IF NOT EXISTS comments (
                 comment_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
                 page_id VARCHAR(255) NOT NULL,
@@ -174,18 +177,19 @@ async function createComment(req, res) {
                 ip VARCHAR(45) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
-        `;
+        `);
         
         // 비밀번호 해싱
         const saltRounds = 10;
         const passwordHash = await bcrypt.hash(password, saltRounds);
         
         // 댓글 저장
-        const result = await sql`
-            INSERT INTO comments (page_id, nickname, password_hash, content, ip)
-            VALUES (${id}, ${nickname}, ${passwordHash}, ${content}, ${ip})
-            RETURNING comment_id
-        `;
+        const result = await pool.query(
+            `INSERT INTO comments (page_id, nickname, password_hash, content, ip)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING comment_id`,
+            [id, nickname, passwordHash, content, ip]
+        );
         
         res.status(201).json({
             success: true,
