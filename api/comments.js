@@ -1,5 +1,6 @@
 import pool from '../lib/db.js';
 import bcrypt from 'bcryptjs';
+import { getClientIp } from '../lib/utils.js';
 
 export default async function handler(req, res) {
     // CORS 헤더 설정
@@ -107,10 +108,13 @@ async function getComments(req, res) {
 }
 
 async function createComment(req, res) {
-    const { id, nickname, password, content, ip } = req.body;
+    const { id, nickname, password, content } = req.body;
+    
+    // 서버에서 IP 추출
+    const ip = getClientIp(req);
     
     // 유효성 검사
-    if (!id || !nickname || !password || !content || !ip) {
+    if (!id || !nickname || !password || !content) {
         return res.status(400).json({
             success: false,
             message: '모든 필드를 입력해주세요'

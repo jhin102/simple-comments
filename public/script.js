@@ -1,8 +1,6 @@
 class SimpleComments {
     constructor() {
         this.pageId = this.getUrlParam('id');
-        this.width = parseInt(this.getUrlParam('w')) || 600;
-        this.height = parseInt(this.getUrlParam('h')) || 800;
         this.maxPerPage = parseInt(this.getUrlParam('max')) || 10;
         this.currentPage = 1;
         this.totalComments = 0;
@@ -11,7 +9,8 @@ class SimpleComments {
         this.liked = false;
         
         if (!this.pageId) {
-            this.showError('페이지 ID가 필요합니다. URL에 ?id=your-page-id를 추가해주세요.');
+            const commentsList = document.getElementById('sc-commentsList');
+            commentsList.innerHTML = '<div class="sc-error-text">페이지 ID가 필요합니다</div>';
             return;
         }
         
@@ -39,7 +38,8 @@ class SimpleComments {
             
         } catch (error) {
             console.error('초기화 오류:', error);
-            this.showError('초기화 중 오류가 발생했습니다.');
+            const commentsList = document.getElementById('sc-commentsList');
+            commentsList.innerHTML = '<div class="sc-error-text">초기화에 실패했습니다</div>';
         }
     }
     
@@ -48,11 +48,9 @@ class SimpleComments {
             const response = await fetch('/api/ip');
             const data = await response.json();
             this.userIp = data.ip;
-            document.getElementById('currentIp').value = this.userIp;
         } catch (error) {
             console.error('IP 가져오기 오류:', error);
             this.userIp = 'unknown';
-            document.getElementById('currentIp').value = 'IP를 가져올 수 없습니다';
         }
     }
     
@@ -63,13 +61,13 @@ class SimpleComments {
             
             if (data.success) {
                 this.liked = data.liked;
-                document.getElementById('likeCount').textContent = data.total;
+                document.getElementById('sc-likeCount').textContent = data.total;
                 
-                const likeButton = document.getElementById('likeButton');
+                const likeButton = document.getElementById('sc-likeButton');
                 if (this.liked) {
-                    likeButton.classList.add('liked');
+                    likeButton.classList.add('sc-liked');
                 } else {
-                    likeButton.classList.remove('liked');
+                    likeButton.classList.remove('sc-liked');
                 }
             }
         } catch (error) {
@@ -94,13 +92,13 @@ class SimpleComments {
             
             if (data.success) {
                 this.liked = data.liked;
-                document.getElementById('likeCount').textContent = data.total;
+                document.getElementById('sc-likeCount').textContent = data.total;
                 
-                const likeButton = document.getElementById('likeButton');
+                const likeButton = document.getElementById('sc-likeButton');
                 if (this.liked) {
-                    likeButton.classList.add('liked');
+                    likeButton.classList.add('sc-liked');
                 } else {
-                    likeButton.classList.remove('liked');
+                    likeButton.classList.remove('sc-liked');
                 }
             }
         } catch (error) {
@@ -125,27 +123,28 @@ class SimpleComments {
             }
         } catch (error) {
             console.error('댓글 로드 오류:', error);
-            this.showError('댓글을 불러오는 중 오류가 발생했습니다.');
+            const commentsList = document.getElementById('sc-commentsList');
+            commentsList.innerHTML = '<div class="sc-error-text">댓글 로딩에 실패했습니다</div>';
         }
     }
     
     renderComments(comments) {
-        const commentsList = document.getElementById('commentsList');
+        const commentsList = document.getElementById('sc-commentsList');
         
         if (comments.length === 0) {
-            commentsList.innerHTML = '<div class="loading">아직 댓글이 없습니다. 첫 번째 댓글을 작성해보세요!</div>';
+            commentsList.innerHTML = '<div class="sc-loading">아직 댓글이 없습니다. 첫 번째 댓글을 작성해보세요!</div>';
             return;
         }
         
         commentsList.innerHTML = comments.map(comment => `
-            <div class="comment-card">
-                <div class="comment-header">
-                    <span class="comment-nickname">${this.escapeHtml(comment.nickname)}</span>
-                    <span class="comment-time">${this.formatTime(comment.createdAt)}</span>
+            <div class="sc-comment-card">
+                <div class="sc-comment-header">
+                    <span class="sc-comment-nickname">${this.escapeHtml(comment.nickname)} (${this.escapeHtml(comment.ip)})</span>
+                    <span class="sc-comment-time">${this.formatTime(comment.createdAt)}</span>
                 </div>
-                <div class="comment-content">${this.escapeHtml(comment.content)}</div>
-                <div class="comment-actions">
-                    <button class="delete-button ${comment.ip === this.userIp ? '' : 'hidden'}" 
+                <div class="sc-comment-content">${this.escapeHtml(comment.content)}</div>
+                <div class="sc-comment-actions">
+                    <button class="sc-delete-button ${comment.ip === this.userIp ? '' : 'sc-hidden'}" 
                             onclick="app.deleteComment('${comment.commentId}')">
                         삭제
                     </button>
@@ -155,7 +154,7 @@ class SimpleComments {
     }
     
     renderPagination() {
-        const pagination = document.getElementById('pagination');
+        const pagination = document.getElementById('sc-pagination');
         
         if (this.totalPages <= 1) {
             pagination.style.display = 'none';
@@ -180,7 +179,7 @@ class SimpleComments {
         
         for (let i = startPage; i <= endPage; i++) {
             paginationHtml += `
-                <button class="${i === this.currentPage ? 'active' : ''}" 
+                <button class="${i === this.currentPage ? 'sc-active' : ''}" 
                         onclick="app.loadComments(${i})">
                     ${i}
                 </button>
@@ -199,13 +198,13 @@ class SimpleComments {
     }
     
     updateCommentsHeader() {
-        document.getElementById('totalComments').textContent = this.totalComments;
+        document.getElementById('sc-totalComments').textContent = this.totalComments;
     }
     
     async submitComment() {
-        const nickname = document.getElementById('nickname').value.trim();
-        const password = document.getElementById('password').value.trim();
-        const content = document.getElementById('content').value.trim();
+        const nickname = document.getElementById('sc-nickname').value.trim();
+        const password = document.getElementById('sc-password').value.trim();
+        const content = document.getElementById('sc-content').value.trim();
         
         // 유효성 검사
         if (!nickname) {
@@ -228,7 +227,7 @@ class SimpleComments {
             return;
         }
         
-        const submitButton = document.getElementById('submitButton');
+        const submitButton = document.getElementById('sc-submitButton');
         submitButton.disabled = true;
         submitButton.textContent = '등록 중...';
         
@@ -242,8 +241,7 @@ class SimpleComments {
                     id: this.pageId,
                     nickname: nickname,
                     password: password,
-                    content: content,
-                    ip: this.userIp
+                    content: content
                 })
             });
             
@@ -253,9 +251,9 @@ class SimpleComments {
                 this.showSuccess('댓글이 등록되었습니다.');
                 
                 // 폼 초기화
-                document.getElementById('nickname').value = '';
-                document.getElementById('password').value = '';
-                document.getElementById('content').value = '';
+                document.getElementById('sc-nickname').value = '';
+                document.getElementById('sc-password').value = '';
+                document.getElementById('sc-content').value = '';
                 
                 // 댓글 리스트 새로고침
                 await this.loadComments(this.currentPage);
@@ -282,8 +280,7 @@ class SimpleComments {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    password: password,
-                    ip: this.userIp
+                    password: password
                 })
             });
             
@@ -303,17 +300,17 @@ class SimpleComments {
     
     setupEventListeners() {
         // 좋아요 버튼
-        document.getElementById('likeButton').addEventListener('click', () => {
+        document.getElementById('sc-likeButton').addEventListener('click', () => {
             this.toggleLike();
         });
         
         // 댓글 등록 버튼
-        document.getElementById('submitButton').addEventListener('click', () => {
+        document.getElementById('sc-submitButton').addEventListener('click', () => {
             this.submitComment();
         });
         
         // Enter 키로 댓글 등록
-        document.getElementById('content').addEventListener('keydown', (e) => {
+        document.getElementById('sc-content').addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === 'Enter') {
                 this.submitComment();
             }
@@ -329,8 +326,8 @@ class SimpleComments {
     }
     
     showMessage(message, type) {
-        const container = document.getElementById('messageContainer');
-        container.innerHTML = `<div class="${type}-message">${message}</div>`;
+        const container = document.getElementById('sc-messageContainer');
+        container.innerHTML = `<div class="sc-${type}-message">${message}</div>`;
         
         // 3초 후 메시지 제거
         setTimeout(() => {

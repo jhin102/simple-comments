@@ -7,61 +7,56 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+    <div class="sc-container">
         <!-- 좋아요 버튼 -->
-        <div class="like-section">
-            <button class="like-button" id="likeButton">
-                <span>❤️</span>
-                <span class="like-count" id="likeCount">0</span>
+        <div class="sc-like-section">
+            <button class="sc-like-button" id="sc-likeButton">
+                <div class="sc-like-icon"></div>
+                <span class="sc-like-count" id="sc-likeCount">0</span>
             </button>
         </div>
 
         <!-- 댓글 리스트 -->
-        <div class="comments-section">
-            <div class="comments-header">
-                댓글 <span id="totalComments">0</span>개
+        <div class="sc-comments-section">
+            <div class="sc-comments-header">
+                댓글 <span id="sc-totalComments">0</span>개
             </div>
-            <div id="commentsList">
-                <div class="loading">
-                    <div class="spinner"></div>
+            <div id="sc-commentsList">
+                <div class="sc-loading">
+                    <div class="sc-spinner"></div>
                     댓글을 불러오는 중...
                 </div>
             </div>
             
             <!-- 페이지네이션 -->
-            <div class="pagination" id="pagination" style="display: none;">
+            <div class="sc-pagination" id="sc-pagination" style="display: none;">
                 <!-- 페이지네이션 버튼들이 동적으로 생성됩니다 -->
             </div>
         </div>
 
         <!-- 댓글 작성 폼 -->
-        <div class="comment-form">
-            <div id="messageContainer"></div>
+        <div class="sc-comment-form">
+            <div id="sc-messageContainer"></div>
             
-            <div class="form-group">
-                <label for="currentIp">현재 IP</label>
-                <input type="text" id="currentIp" readonly>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="nickname">닉네임</label>
-                    <input type="text" id="nickname" maxlength="20" placeholder="닉네임을 입력하세요">
+            <div class="sc-form-layout">
+                <div class="sc-form-left">
+                    <div class="sc-form-group">
+                        <input type="text" id="sc-nickname" maxlength="20" placeholder="닉네임">
+                    </div>
+                    <div class="sc-form-group">
+                        <input type="password" id="sc-password" maxlength="4" placeholder="비밀번호">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="password">비밀번호</label>
-                    <input type="password" id="password" maxlength="4" placeholder="4자리 (예: ab12)">
+                
+                <div class="sc-form-right">
+                    <div class="sc-form-group">
+                        <textarea id="sc-content" maxlength="500" placeholder="댓글을 입력하세요 (최대 500자)"></textarea>
+                    </div>
+                    <button class="sc-submit-button" id="sc-submitButton">
+                        댓글 등록
+                    </button>
                 </div>
             </div>
-            
-            <div class="form-group">
-                <label for="content">댓글 내용</label>
-                <textarea id="content" maxlength="500" placeholder="댓글을 입력하세요 (최대 500자)"></textarea>
-            </div>
-            
-            <button class="submit-button" id="submitButton">
-                댓글 등록
-            </button>
         </div>
     </div>
 

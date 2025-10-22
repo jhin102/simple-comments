@@ -23,8 +23,8 @@
             color: #333;
         }
         iframe {
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            display: block;
+            background: white;
         }
         .info {
             background: #e3f2fd;
@@ -50,41 +50,35 @@
     </div>
     
     <div class="test-section">
-        <h2>테스트 1: 기본 댓글 위젯</h2>
+        <h2>테스트 1: 기본 댓글 위젯 (페이지당 5개)</h2>
         <div class="info">
-            <strong>URL:</strong> <code>/?id=test-page-1&w=600&h=500&max=5</code>
+            <strong>URL:</strong> <code>/?id=test-page-1&max=5</code>
         </div>
         <iframe 
-            src="/?id=test-page-1&w=600&h=500&max=5"
-            width="600" 
-            height="500"
-            frameborder="0">
+            src="/?id=test-page-1&max=5"
+            style="width: 100%; height: 600px; border: none; border-radius: 8px;">
         </iframe>
     </div>
     
     <div class="test-section">
-        <h2>테스트 2: 넓은 위젯</h2>
+        <h2>테스트 2: 댓글 많이 표시 (페이지당 10개)</h2>
         <div class="info">
-            <strong>URL:</strong> <code>/?id=test-page-2&w=800&h=600&max=10</code>
+            <strong>URL:</strong> <code>/?id=test-page-2&max=10</code>
         </div>
         <iframe 
-            src="/?id=test-page-2&w=800&h=600&max=10"
-            width="800" 
-            height="600"
-            frameborder="0">
+            src="/?id=test-page-2&max=10"
+            style="width: 100%; height: 700px; border: none; border-radius: 8px;">
         </iframe>
     </div>
     
     <div class="test-section">
-        <h2>테스트 3: 작은 위젯</h2>
+        <h2>테스트 3: 댓글 적게 표시 (페이지당 3개)</h2>
         <div class="info">
-            <strong>URL:</strong> <code>/?id=test-page-3&w=400&h=300&max=3</code>
+            <strong>URL:</strong> <code>/?id=test-page-3&max=3</code>
         </div>
         <iframe 
-            src="/?id=test-page-3&w=400&h=300&max=3"
-            width="400" 
-            height="300"
-            frameborder="0">
+            src="/?id=test-page-3&max=3"
+            style="width: 100%; height: 500px; border: none; border-radius: 8px;">
         </iframe>
     </div>
     
@@ -101,11 +95,16 @@
     
     <div class="test-section">
         <h2>임베딩 코드 예시</h2>
-        <pre><code>&lt;iframe 
-  src="https://your-domain.vercel.app/?id=my-page-1&w=600&h=800&max=20"
-  width="600" 
-  height="800"
-  frameborder="0"&gt;
+        <pre><code>&lt;!-- 반응형 임베딩 (권장) --&gt;
+&lt;iframe 
+  src="https://your-domain.vercel.app/?id=my-page-1&max=20"
+  style="width: 100%; height: 800px; border: none;"&gt;
+&lt;/iframe&gt;
+
+&lt;!-- 고정 너비 임베딩 --&gt;
+&lt;iframe 
+  src="https://your-domain.vercel.app/?id=my-page-1&max=20"
+  style="width: 600px; height: 800px; border: none;"&gt;
 &lt;/iframe&gt;</code></pre>
     </div>
     

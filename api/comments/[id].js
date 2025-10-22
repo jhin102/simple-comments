@@ -1,5 +1,6 @@
 import pool from '../../lib/db.js';
 import bcrypt from 'bcryptjs';
+import { getClientIp } from '../../lib/utils.js';
 
 export default async function handler(req, res) {
     // CORS 헤더 설정
@@ -29,12 +30,15 @@ export default async function handler(req, res) {
 
 async function deleteComment(req, res) {
     const { id: commentId } = req.query;
-    const { password, ip } = req.body;
+    const { password } = req.body;
     
-    if (!commentId || !password || !ip) {
+    // 서버에서 IP 추출
+    const ip = getClientIp(req);
+    
+    if (!commentId || !password) {
         return res.status(400).json({
             success: false,
-            message: '댓글 ID, 비밀번호, IP가 필요합니다'
+            message: '댓글 ID와 비밀번호가 필요합니다'
         });
     }
     

@@ -13,9 +13,9 @@
 
 ## 🛠 기술 스택
 
-- **Frontend**: Vanilla HTML/CSS/JavaScript
+- **Frontend**: Vanilla HTML/CSS/JavaScript (반응형 디자인)
 - **Backend**: Vercel Serverless Functions (Node.js)
-- **Database**: Vercel Postgres
+- **Database**: PostgreSQL (node-postgres)
 - **Hosting**: Vercel
 
 ## 📦 설치 및 배포
@@ -50,38 +50,38 @@ vercel --prod
 
 ## 🎯 사용법
 
-### 기본 사용
+### 기본 사용 (반응형 - 권장)
 ```html
 <iframe 
-  src="https://your-domain.vercel.app/?id=my-page-1&w=600&h=800&max=20"
-  width="600" 
-  height="800"
-  frameborder="0">
+  src="https://your-domain.vercel.app/?id=my-page-1&max=20"
+  style="width: 100%; height: 800px; border: none;">
+</iframe>
+```
+
+### 고정 너비 사용
+```html
+<iframe 
+  src="https://your-domain.vercel.app/?id=my-page-1&max=20"
+  style="width: 600px; height: 800px; border: none;">
 </iframe>
 ```
 
 ### URL 파라미터
 - `id`: 댓글 스레드 식별자 (필수)
-- `w`: 위젯 너비 (px, 기본값: 600)
-- `h`: 위젯 높이 (px, 기본값: 800)
 - `max`: 페이지당 댓글 수 (기본값: 10)
 
 ### 예시
 ```html
-<!-- 블로그 포스트 댓글 -->
+<!-- 블로그 포스트 댓글 (반응형) -->
 <iframe 
-  src="https://simple-comments.vercel.app/?id=blog-post-123&w=800&h=600&max=15"
-  width="800" 
-  height="600"
-  frameborder="0">
+  src="https://simple-comments.vercel.app/?id=blog-post-123&max=15"
+  style="width: 100%; height: 700px; border: none;">
 </iframe>
 
-<!-- 상품 리뷰 -->
+<!-- 상품 리뷰 (고정 너비) -->
 <iframe 
-  src="https://simple-comments.vercel.app/?id=product-review-456&w=500&h=400&max=5"
-  width="500" 
-  height="400"
-  frameborder="0">
+  src="https://simple-comments.vercel.app/?id=product-review-456&max=5"
+  style="width: 500px; height: 600px; border: none;">
 </iframe>
 ```
 

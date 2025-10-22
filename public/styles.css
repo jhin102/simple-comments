@@ -1,266 +1,303 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Simple Comments - Scoped Styles */
+
+@font-face {
+    font-family: 'MonoplexKRNerd-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_Monoplex-nerd@1.0/MonoplexKRNerd-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
 }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.sc-container {
+    width: 100%;
+    margin: 0;
+    padding: 16px;
+    font-family: 'NanumSquareNeo-Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: #FFFFFF;
     color: #1C1C1C;
     line-height: 1.5;
-    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
-.container {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+.sc-container * {
+    box-sizing: border-box;
 }
 
 /* 좋아요 버튼 */
-.like-section {
+.sc-like-section {
     text-align: center;
     margin-bottom: 30px;
-    padding: 20px;
-    border: 2px solid #f0f0f0;
-    border-radius: 12px;
-    background: #fafafa;
+    padding: 16px 0;
+    border-bottom: 1px solid #e9ecef;
 }
 
-.like-button {
+.sc-like-button {
     background: none;
     border: none;
-    font-size: 24px;
     cursor: pointer;
     padding: 10px;
-    border-radius: 50%;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     margin: 0 auto;
 }
 
-.like-button:hover {
-    background: #f0f0f0;
-    transform: scale(1.1);
+.sc-like-button:hover {
+    transform: scale(1.05);
 }
 
-.like-button.liked {
-    color: #ff4757;
+.sc-like-icon {
+    width: 36px;
+    height: 36px;
+    background-image: url('heart.svg');
+    background-size: 72px 36px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    transition: background-position 0.1s ease;
 }
 
-.like-button:not(.liked) {
+.sc-like-button.sc-liked .sc-like-icon {
+    background-position: -36px 0;
+}
+
+.sc-like-count {
+    font-size: 16px;
+    font-weight: 400;
     color: #6D6D6D;
 }
 
-.like-count {
-    font-size: 18px;
-    font-weight: 600;
-    color: #1C1C1C;
-}
-
 /* 댓글 리스트 */
-.comments-section {
+.sc-comments-section {
     margin-bottom: 30px;
 }
 
-.comments-header {
+.sc-comments-header {
+    font-family: 'MonoplexKRNerd-Bold', monospace;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 20px;
     color: #1C1C1C;
 }
 
-.comment-card {
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 12px;
+.sc-comment-card {
+    background: transparent;
+    border-bottom: 1px solid #e9ecef;
+    padding: 16px 0;
+    margin-bottom: 0;
     position: relative;
 }
 
-.comment-header {
+.sc-comment-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
 }
 
-.comment-nickname {
-    font-weight: 600;
-    color: #1C1C1C;
+.sc-comment-nickname {
+    font-weight: 400;
+    color: #6D6D6D;
+    font-size: 14px;
 }
 
-.comment-time {
+.sc-comment-time {
     font-size: 12px;
     color: #6D6D6D;
 }
 
-.comment-content {
-    color: #1C1C1C;
+.sc-comment-content {
+    color: #6D6D6D;
     margin-bottom: 8px;
     word-wrap: break-word;
+    line-height: 1.6;
 }
 
-.comment-actions {
+.sc-comment-actions {
     display: flex;
     justify-content: flex-end;
 }
 
-.delete-button {
-    background: #ff4757;
-    color: white;
-    border: none;
-    padding: 4px 8px;
+.sc-delete-button {
+    background: transparent;
+    color: #6D6D6D;
+    border: 1px solid #D3D1CB;
+    padding: 4px 12px;
     border-radius: 4px;
     font-size: 12px;
     cursor: pointer;
-    opacity: 0.8;
-    transition: opacity 0.2s ease;
+    transition: all 0.2s ease;
 }
 
-.delete-button:hover {
-    opacity: 1;
+.sc-delete-button:hover {
+    background: #D3D1CB;
+    color: #fff;
 }
 
-.delete-button.hidden {
+.sc-delete-button.sc-hidden {
     display: none;
 }
 
 /* 페이지네이션 */
-.pagination {
+.sc-pagination {
     display: flex;
     justify-content: center;
     gap: 8px;
     margin: 20px 0;
 }
 
-.pagination button {
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
+.sc-pagination button {
+    background: transparent;
+    border: 1px solid #D3D1CB;
+    color: #6D6D6D;
     padding: 8px 12px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
     transition: all 0.2s ease;
-}
-
-.pagination button:hover:not(:disabled) {
-    background: #e9ecef;
-}
-
-.pagination button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.pagination button.active {
-    background: #007bff;
-    color: white;
-    border-color: #007bff;
-}
-
-/* 댓글 작성 폼 */
-.comment-form {
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    padding: 20px;
-}
-
-.form-group {
-    margin-bottom: 16px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 4px;
-    font-weight: 500;
-    color: #1C1C1C;
-}
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #e9ecef;
-    border-radius: 4px;
-    font-size: 14px;
     font-family: inherit;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+.sc-pagination button:hover:not(:disabled) {
+    background: #D3D1CB;
+    color: #fff;
 }
 
-.form-group textarea {
-    resize: vertical;
-    min-height: 80px;
+.sc-pagination button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
 }
 
-.form-row {
+.sc-pagination button.sc-active {
+    background: #D3D1CB;
+    color: #fff;
+    border-color: #D3D1CB;
+}
+
+/* 댓글 작성 폼 */
+.sc-comment-form {
+    border-top: 1px solid #e9ecef;
+    padding: 20px 0;
+    margin-top: 20px;
+}
+
+.sc-form-layout {
     display: flex;
-    gap: 12px;
+    gap: 16px;
 }
 
-.form-row .form-group {
+.sc-form-left {
+    width: 140px;
+    flex-shrink: 0;
+}
+
+.sc-form-right {
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.submit-button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 12px 24px;
+.sc-form-group {
+    margin-bottom: 12px;
+}
+
+.sc-form-group input,
+.sc-form-group textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #D3D1CB;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #6D6D6D;
+}
+
+.sc-form-group input::placeholder,
+.sc-form-group textarea::placeholder {
+    color: #999;
+}
+
+.sc-form-group input:focus,
+.sc-form-group textarea:focus {
+    outline: none;
+    border-color: #6D6D6D;
+    box-shadow: none;
+}
+
+.sc-form-right .sc-form-group {
+    flex: 1;
+    margin-bottom: 12px;
+}
+
+.sc-form-right textarea {
+    resize: vertical;
+    min-height: 100px;
+    height: 100%;
+}
+
+.sc-submit-button {
+    background: transparent;
+    color: #D3D1CB;
+    border: 1px solid #D3D1CB;
+    padding: 10px 20px;
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.2s ease;
-    width: 100%;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    align-self: flex-end;
+    margin-top: 8px;
 }
 
-.submit-button:hover:not(:disabled) {
-    background: #0056b3;
+.sc-submit-button:hover:not(:disabled) {
+    background: #D3D1CB;
+    color: #fff;
 }
 
-.submit-button:disabled {
-    background: #6c757d;
+.sc-submit-button:disabled {
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
 /* 로딩 상태 */
-.loading {
+.sc-loading {
     text-align: center;
     padding: 20px;
     color: #6D6D6D;
 }
 
-.spinner {
+.sc-error-text {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+    font-size: 14px;
+}
+
+.sc-spinner {
     display: inline-block;
     width: 20px;
     height: 20px;
     border: 2px solid #f3f3f3;
     border-top: 2px solid #007bff;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: sc-spin 1s linear infinite;
     margin-right: 8px;
 }
 
-@keyframes spin {
+@keyframes sc-spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-/* 에러 메시지 */
-.error-message {
+/* 메시지 */
+.sc-error-message {
     background: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
@@ -269,7 +306,7 @@ body {
     margin-bottom: 16px;
 }
 
-.success-message {
+.sc-success-message {
     background: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
@@ -280,12 +317,19 @@ body {
 
 /* 반응형 */
 @media (max-width: 480px) {
-    .container {
+    .sc-container {
         padding: 12px;
     }
     
-    .form-row {
+    .sc-form-layout {
         flex-direction: column;
-        gap: 0;
+    }
+    
+    .sc-form-left {
+        width: 100%;
+    }
+    
+    .sc-submit-button {
+        width: 100%;
     }
 }
