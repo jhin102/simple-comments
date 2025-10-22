@@ -1,6 +1,7 @@
 {
   "name": "simple-comments",
   "version": "1.0.0",
+  "type": "module",
   "description": "로그인 없이 어디서나 사용 가능한 임베딩형 댓글 서비스",
   "main": "index.js",
   "scripts": {
