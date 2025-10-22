@@ -9,6 +9,7 @@
     "deploy": "vercel --prod"
   },
   "dependencies": {
+    "@vercel/postgres": "^0.5.1",
     "bcryptjs": "^2.4.3"
   },
   "devDependencies": {
