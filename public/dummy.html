@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Comments - UI Preview</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="sc-container">
+        <!-- 좋아요 버튼 -->
+        <div class="sc-like-section">
+            <button class="sc-like-button sc-liked">
+                <div class="sc-like-icon"></div>
+                <span class="sc-like-count">42</span>
+            </button>
+        </div>
+
+        <!-- 댓글 리스트 -->
+        <div class="sc-comments-section">
+            <div class="sc-comments-header">
+                댓글 <span>5</span>개
+            </div>
+            <div id="sc-commentsList">
+                <!-- 댓글 1 -->
+                <div class="sc-comment-card">
+                    <div class="sc-comment-header">
+                        <span class="sc-comment-nickname">홍길동 (192.168.0.1)</span>
+                        <div class="sc-comment-meta">
+                            <span class="sc-comment-time">방금 전</span>
+                            <button class="sc-delete-button" title="삭제">×</button>
+                        </div>
+                    </div>
+                    <div class="sc-comment-content">정말 유용한 정보네요! 감사합니다 😊</div>
+                </div>
+
+                <!-- 댓글 2 -->
+                <div class="sc-comment-card">
+                    <div class="sc-comment-header">
+                        <span class="sc-comment-nickname">김철수 (10.0.0.5)</span>
+                        <div class="sc-comment-meta">
+                            <span class="sc-comment-time">5분 전</span>
+                            <button class="sc-delete-button sc-hidden" title="삭제">×</button>
+                        </div>
+                    </div>
+                    <div class="sc-comment-content">동의합니다. 저도 같은 생각이었어요.</div>
+                </div>
+
+                <!-- 댓글 3 -->
+                <div class="sc-comment-card">
+                    <div class="sc-comment-header">
+                        <span class="sc-comment-nickname">이영희 (172.16.0.10)</span>
+                        <div class="sc-comment-meta">
+                            <span class="sc-comment-time">1시간 전</span>
+                            <button class="sc-delete-button sc-hidden" title="삭제">×</button>
+                        </div>
+                    </div>
+                    <div class="sc-comment-content">좋은 글 잘 읽었습니다. 다음 포스팅도 기대할게요!</div>
+                </div>
+
+                <!-- 댓글 4 -->
+                <div class="sc-comment-card">
+                    <div class="sc-comment-header">
+                        <span class="sc-comment-nickname">박민수 (192.168.1.100)</span>
+                        <div class="sc-comment-meta">
+                            <span class="sc-comment-time">3시간 전</span>
+                            <button class="sc-delete-button sc-hidden" title="삭제">×</button>
+                        </div>
+                    </div>
+                    <div class="sc-comment-content">와 이런 기능이 있었군요. 몰랐던 부분인데 도움이 많이 되었습니다. 상세한 설명 감사드립니다!</div>
+                </div>
+
+                <!-- 댓글 5 -->
+                <div class="sc-comment-card">
+                    <div class="sc-comment-header">
+                        <span class="sc-comment-nickname">최지훈 (10.10.10.20)</span>
+                        <div class="sc-comment-meta">
+                            <span class="sc-comment-time">1일 전</span>
+                            <button class="sc-delete-button sc-hidden" title="삭제">×</button>
+                        </div>
+                    </div>
+                    <div class="sc-comment-content">첫 댓글입니다! 🎉</div>
+                </div>
+            </div>
+            
+            <!-- 페이지네이션 -->
+            <div class="sc-pagination">
+                <button disabled>이전</button>
+                <button class="sc-active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>다음</button>
+            </div>
+        </div>
+
+        <!-- 댓글 작성 폼 -->
+        <div class="sc-comment-form">
+            <div id="sc-messageContainer"></div>
+            
+            <div class="sc-form-layout">
+                <div class="sc-form-left">
+                    <div class="sc-form-group">
+                        <input type="text" id="sc-nickname" maxlength="20" placeholder="닉네임">
+                    </div>
+                    <div class="sc-form-group">
+                        <input type="password" id="sc-password" maxlength="4" placeholder="4자리">
+                    </div>
+                </div>
+                
+                <div class="sc-form-right">
+                    <div class="sc-form-group">
+                        <textarea id="sc-content" maxlength="500" placeholder="댓글을 입력하세요 (최대 500자)"></textarea>
+                    </div>
+                    <button class="sc-submit-button">
+                        댓글 등록
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

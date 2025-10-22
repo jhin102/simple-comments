@@ -140,15 +140,14 @@ class SimpleComments {
             <div class="sc-comment-card">
                 <div class="sc-comment-header">
                     <span class="sc-comment-nickname">${this.escapeHtml(comment.nickname)} (${this.escapeHtml(comment.ip)})</span>
-                    <span class="sc-comment-time">${this.formatTime(comment.createdAt)}</span>
+                    <div class="sc-comment-meta">
+                        <span class="sc-comment-time">${this.formatTime(comment.createdAt)}</span>
+                        <button class="sc-delete-button ${comment.ip === this.userIp ? '' : 'sc-hidden'}" 
+                                onclick="app.deleteComment('${comment.commentId}')"
+                                title="삭제">×</button>
+                    </div>
                 </div>
                 <div class="sc-comment-content">${this.escapeHtml(comment.content)}</div>
-                <div class="sc-comment-actions">
-                    <button class="sc-delete-button ${comment.ip === this.userIp ? '' : 'sc-hidden'}" 
-                            onclick="app.deleteComment('${comment.commentId}')">
-                        삭제
-                    </button>
-                </div>
             </div>
         `).join('');
     }
