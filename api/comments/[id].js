@@ -22,7 +22,7 @@ export default async function handler(req, res) {
         console.error('댓글 삭제 API 오류:', error);
         res.status(500).json({
             success: false,
-            error: '서버 오류가 발생했습니다'
+            message: '서버 오류가 발생했습니다'
         });
     }
 }
@@ -34,7 +34,7 @@ async function deleteComment(req, res) {
     if (!commentId || !password || !ip) {
         return res.status(400).json({
             success: false,
-            error: '댓글 ID, 비밀번호, IP가 필요합니다'
+            message: '댓글 ID, 비밀번호, IP가 필요합니다'
         });
     }
     
@@ -49,7 +49,7 @@ async function deleteComment(req, res) {
         if (commentResult.rows.length === 0) {
             return res.status(404).json({
                 success: false,
-                error: '댓글을 찾을 수 없습니다'
+                message: '댓글을 찾을 수 없습니다'
             });
         }
         
@@ -59,7 +59,7 @@ async function deleteComment(req, res) {
         if (comment.comment_ip !== ip) {
             return res.status(403).json({
                 success: false,
-                error: '본인의 댓글만 삭제할 수 있습니다'
+                message: '본인의 댓글만 삭제할 수 있습니다'
             });
         }
         
@@ -69,7 +69,7 @@ async function deleteComment(req, res) {
         if (!isPasswordValid) {
             return res.status(401).json({
                 success: false,
-                error: '비밀번호가 일치하지 않습니다'
+                message: '비밀번호가 일치하지 않습니다'
             });
         }
         
@@ -86,7 +86,7 @@ async function deleteComment(req, res) {
         console.error('댓글 삭제 오류:', error);
         res.status(500).json({
             success: false,
-            error: '댓글 삭제 중 오류가 발생했습니다'
+            message: '댓글 삭제 중 오류가 발생했습니다'
         });
     }
 }

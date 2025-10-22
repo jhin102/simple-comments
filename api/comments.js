@@ -24,7 +24,7 @@ export default async function handler(req, res) {
         console.error('댓글 API 오류:', error);
         res.status(500).json({
             success: false,
-            error: '서버 오류가 발생했습니다'
+            message: '서버 오류가 발생했습니다'
         });
     }
 }
@@ -35,7 +35,7 @@ async function getComments(req, res) {
     if (!id) {
         return res.status(400).json({
             success: false,
-            error: '페이지 ID가 필요합니다'
+            message: '페이지 ID가 필요합니다'
         });
     }
     
@@ -79,9 +79,18 @@ async function getComments(req, res) {
         
         const total = parseInt(totalResult.rows[0].total);
         
+        // snake_case를 camelCase로 변환
+        const comments = commentsResult.rows.map(row => ({
+            commentId: row.comment_id,
+            nickname: row.nickname,
+            content: row.content,
+            ip: row.ip,
+            createdAt: row.created_at
+        }));
+        
         res.status(200).json({
             success: true,
-            comments: commentsResult.rows,
+            comments: comments,
             total: total,
             page: pageNum,
             maxPerPage: maxPerPage
@@ -90,7 +99,7 @@ async function getComments(req, res) {
         console.error('댓글 조회 오류:', error);
         res.status(500).json({
             success: false,
-            error: '댓글을 불러올 수 없습니다'
+            message: '댓글을 불러올 수 없습니다'
         });
     }
 }
@@ -102,28 +111,28 @@ async function createComment(req, res) {
     if (!id || !nickname || !password || !content || !ip) {
         return res.status(400).json({
             success: false,
-            error: '모든 필드를 입력해주세요'
+            message: '모든 필드를 입력해주세요'
         });
     }
     
     if (nickname.length > 20) {
         return res.status(400).json({
             success: false,
-            error: '닉네임은 20자 이하로 입력해주세요'
+            message: '닉네임은 20자 이하로 입력해주세요'
         });
     }
     
     if (password.length !== 4) {
         return res.status(400).json({
             success: false,
-            error: '비밀번호는 4자리로 입력해주세요'
+            message: '비밀번호는 4자리로 입력해주세요'
         });
     }
     
     if (content.length > 500) {
         return res.status(400).json({
             success: false,
-            error: '댓글은 500자 이하로 입력해주세요'
+            message: '댓글은 500자 이하로 입력해주세요'
         });
     }
     
@@ -144,7 +153,7 @@ async function createComment(req, res) {
             if (timeDiff < 10) {
                 return res.status(429).json({
                     success: false,
-                    error: '댓글 작성은 10초에 한 번만 가능합니다'
+                    message: '댓글 작성은 10초에 한 번만 가능합니다'
                 });
             }
         }
@@ -178,18 +187,16 @@ async function createComment(req, res) {
             RETURNING comment_id
         `;
         
-        const commentId = result.rows[0].comment_id;
-        
         res.status(201).json({
             success: true,
-            commentId: commentId,
+            commentId: result.rows[0].comment_id,
             message: '댓글이 등록되었습니다'
         });
     } catch (error) {
         console.error('댓글 생성 오류:', error);
         res.status(500).json({
             success: false,
-            error: '댓글 등록 중 오류가 발생했습니다'
+            message: '댓글 등록 중 오류가 발생했습니다'
         });
     }
 }

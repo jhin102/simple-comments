@@ -23,7 +23,7 @@ export default async function handler(req, res) {
         console.error('좋아요 API 오류:', error);
         res.status(500).json({
             success: false,
-            error: '서버 오류가 발생했습니다'
+            message: '서버 오류가 발생했습니다'
         });
     }
 }
@@ -34,7 +34,7 @@ async function getLikes(req, res) {
     if (!id || !ip) {
         return res.status(400).json({
             success: false,
-            error: '페이지 ID와 IP가 필요합니다'
+            message: '페이지 ID와 IP가 필요합니다'
         });
     }
     
@@ -71,7 +71,7 @@ async function getLikes(req, res) {
         console.error('좋아요 조회 오류:', error);
         res.status(500).json({
             success: false,
-            error: '좋아요 정보를 가져올 수 없습니다'
+            message: '좋아요 정보를 가져올 수 없습니다'
         });
     }
 }
@@ -82,7 +82,7 @@ async function toggleLike(req, res) {
     if (!id || !ip) {
         return res.status(400).json({
             success: false,
-            error: '페이지 ID와 IP가 필요합니다'
+            message: '페이지 ID와 IP가 필요합니다'
         });
     }
     
@@ -134,7 +134,7 @@ async function toggleLike(req, res) {
         console.error('좋아요 토글 오류:', error);
         res.status(500).json({
             success: false,
-            error: '좋아요 처리 중 오류가 발생했습니다'
+            message: '좋아요 처리 중 오류가 발생했습니다'
         });
     }
 }
