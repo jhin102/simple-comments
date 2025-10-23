@@ -14,13 +14,95 @@
     font-style: normal;
 }
 
+/* ============================================
+   COLOR VARIABLES - LIGHT MODE (Default)
+   ============================================ */
+:root {
+    /* Background Colors */
+    --sc-bg-primary: #FFFFFF;
+    --sc-bg-secondary: #f8f9fa;
+    
+    /* Text Colors */
+    --sc-text-primary: #1C1C1C;
+    --sc-text-secondary: #6D6D6D;
+    --sc-text-tertiary: #999;
+    
+    /* Border & Line Colors */
+    --sc-border-primary: #D3D1CB;
+    --sc-border-secondary: #e9ecef;
+    
+    /* Interactive Colors */
+    --sc-button-bg: transparent;
+    --sc-button-hover-bg: #D3D1CB;
+    --sc-button-hover-text: #fff;
+    
+    /* Accent Colors */
+    --sc-delete-hover: #ff4757;
+    --sc-white: #fff;
+    
+    /* Spinner */
+    --sc-spinner-bg: #f3f3f3;
+    --sc-spinner-accent: #007bff;
+    
+    /* Message Colors */
+    --sc-error-bg: #f8d7da;
+    --sc-error-text: #721c24;
+    --sc-error-border: #f5c6cb;
+    
+    --sc-success-bg: #d4edda;
+    --sc-success-text: #155724;
+    --sc-success-border: #c3e6cb;
+}
+
+/* ============================================
+   COLOR VARIABLES - DARK MODE
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Background Colors */
+        --sc-bg-primary: #252525;
+        --sc-bg-secondary: #2A2A2A;
+        
+        /* Text Colors */
+        --sc-text-primary: #E5E5E5;
+        --sc-text-secondary: #B0B0B0;
+        --sc-text-tertiary: #808080;
+        
+        /* Border & Line Colors */
+        --sc-border-primary: #404040;
+        --sc-border-secondary: #333333;
+        
+        /* Interactive Colors */
+        --sc-button-bg: transparent;
+        --sc-button-hover-bg: #404040;
+        --sc-button-hover-text: #E5E5E5;
+        
+        /* Accent Colors */
+        --sc-delete-hover: #ff6b7a;
+        --sc-white: #E5E5E5;
+        
+        /* Spinner */
+        --sc-spinner-bg: #404040;
+        --sc-spinner-accent: #4a9eff;
+        
+        /* Message Colors */
+        --sc-error-bg: #3d1f1f;
+        --sc-error-text: #ff9999;
+        --sc-error-border: #5c2b2b;
+        
+        --sc-success-bg: #1f3d2b;
+        --sc-success-text: #99ffb3;
+        --sc-success-border: #2b5c3d;
+    }
+}
+
 .sc-container {
     width: 100%;
     margin: 0;
     padding: 16px 0;
     font-family: 'NanumSquareNeo-Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #FFFFFF;
-    color: #1C1C1C;
+    background: var(--sc-bg-primary);
+    color: var(--sc-text-primary);
     line-height: 1.5;
     box-sizing: border-box;
 }
@@ -34,7 +116,7 @@
     text-align: center;
     margin-bottom: 30px;
     padding: 16px 0;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid var(--sc-border-secondary);
 }
 
 .sc-like-button {
@@ -70,7 +152,7 @@
 .sc-like-count {
     font-size: 16px;
     font-weight: 400;
-    color: #6D6D6D;
+    color: var(--sc-text-secondary);
 }
 
 /* 댓글 리스트 */
@@ -83,12 +165,12 @@
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 20px;
-    color: #1C1C1C;
+    color: var(--sc-text-primary);
 }
 
 .sc-comment-card {
     background: transparent;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid var(--sc-border-secondary);
     padding: 16px 0;
     margin-bottom: 0;
     position: relative;
@@ -103,7 +185,7 @@
 
 .sc-comment-nickname {
     font-weight: 400;
-    color: #6D6D6D;
+    color: var(--sc-text-secondary);
     font-size: 14px;
 }
 
@@ -115,11 +197,11 @@
 
 .sc-comment-time {
     font-size: 12px;
-    color: #6D6D6D;
+    color: var(--sc-text-secondary);
 }
 
 .sc-comment-content {
-    color: #6D6D6D;
+    color: var(--sc-text-secondary);
     margin-bottom: 0;
     word-wrap: break-word;
     line-height: 1.6;
@@ -127,7 +209,7 @@
 
 .sc-delete-button {
     background: transparent;
-    color: #999;
+    color: var(--sc-text-tertiary);
     border: none;
     padding: 0;
     width: 20px;
@@ -142,7 +224,7 @@
 }
 
 .sc-delete-button:hover {
-    color: #ff4757;
+    color: var(--sc-delete-hover);
 }
 
 .sc-delete-button.sc-hidden {
@@ -155,27 +237,28 @@
     gap: 8px;
     margin-top: 12px;
     padding: 12px;
-    background: #f8f9fa;
+    background: var(--sc-bg-secondary);
     border-radius: 4px;
 }
 
 .sc-delete-password {
     flex: 1;
     padding: 6px 10px;
-    border: 1px solid #D3D1CB;
+    border: 1px solid var(--sc-border-primary);
     border-radius: 4px;
     font-size: 13px;
     font-family: inherit;
-    color: #6D6D6D;
+    color: var(--sc-text-secondary);
+    background: var(--sc-bg-primary);
 }
 
 .sc-delete-password:focus {
     outline: none;
-    border-color: #6D6D6D;
+    border-color: var(--sc-text-secondary);
 }
 
 .sc-delete-password::placeholder {
-    color: #999;
+    color: var(--sc-text-tertiary);
 }
 
 .sc-delete-confirm,
@@ -186,20 +269,20 @@
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: inherit;
-    border: 1px solid #D3D1CB;
-    background: transparent;
-    color: #6D6D6D;
+    border: 1px solid var(--sc-border-primary);
+    background: var(--sc-button-bg);
+    color: var(--sc-text-secondary);
 }
 
 .sc-delete-confirm:hover {
-    background: #ff4757;
-    border-color: #ff4757;
-    color: #fff;
+    background: var(--sc-delete-hover);
+    border-color: var(--sc-delete-hover);
+    color: var(--sc-white);
 }
 
 .sc-delete-cancel:hover {
-    background: #D3D1CB;
-    color: #fff;
+    background: var(--sc-button-hover-bg);
+    color: var(--sc-button-hover-text);
 }
 
 /* 페이지네이션 */
@@ -211,9 +294,9 @@
 }
 
 .sc-pagination button {
-    background: transparent;
-    border: 1px solid #D3D1CB;
-    color: #6D6D6D;
+    background: var(--sc-button-bg);
+    border: 1px solid var(--sc-border-primary);
+    color: var(--sc-text-secondary);
     padding: 8px 12px;
     border-radius: 4px;
     cursor: pointer;
@@ -223,8 +306,8 @@
 }
 
 .sc-pagination button:hover:not(:disabled) {
-    background: #D3D1CB;
-    color: #fff;
+    background: var(--sc-button-hover-bg);
+    color: var(--sc-button-hover-text);
 }
 
 .sc-pagination button:disabled {
@@ -233,14 +316,14 @@
 }
 
 .sc-pagination button.sc-active {
-    background: #D3D1CB;
-    color: #fff;
-    border-color: #D3D1CB;
+    background: var(--sc-button-hover-bg);
+    color: var(--sc-button-hover-text);
+    border-color: var(--sc-border-primary);
 }
 
 /* 댓글 작성 폼 */
 .sc-comment-form {
-    border-top: 1px solid #e9ecef;
+    border-top: 1px solid var(--sc-border-secondary);
     padding: 20px 0;
     margin-top: 20px;
 }
@@ -269,22 +352,23 @@
 .sc-form-group textarea {
     width: 100%;
     padding: 8px 12px;
-    border: 1px solid #D3D1CB;
+    border: 1px solid var(--sc-border-primary);
     border-radius: 4px;
     font-size: 14px;
     font-family: inherit;
-    color: #6D6D6D;
+    color: var(--sc-text-secondary);
+    background: var(--sc-bg-primary);
 }
 
 .sc-form-group input::placeholder,
 .sc-form-group textarea::placeholder {
-    color: #999;
+    color: var(--sc-text-tertiary);
 }
 
 .sc-form-group input:focus,
 .sc-form-group textarea:focus {
     outline: none;
-    border-color: #6D6D6D;
+    border-color: var(--sc-text-secondary);
     box-shadow: none;
 }
 
@@ -300,9 +384,9 @@
 }
 
 .sc-submit-button {
-    background: transparent;
-    color: #D3D1CB;
-    border: 1px solid #D3D1CB;
+    background: var(--sc-button-bg);
+    color: var(--sc-border-primary);
+    border: 1px solid var(--sc-border-primary);
     padding: 10px 20px;
     border-radius: 4px;
     font-size: 14px;
@@ -315,8 +399,8 @@
 }
 
 .sc-submit-button:hover:not(:disabled) {
-    background: #D3D1CB;
-    color: #fff;
+    background: var(--sc-button-hover-bg);
+    color: var(--sc-button-hover-text);
 }
 
 .sc-submit-button:disabled {
@@ -328,13 +412,13 @@
 .sc-loading {
     text-align: center;
     padding: 20px;
-    color: #6D6D6D;
+    color: var(--sc-text-secondary);
 }
 
 .sc-error-text {
     text-align: center;
     padding: 20px;
-    color: #999;
+    color: var(--sc-text-tertiary);
     font-size: 14px;
 }
 
@@ -342,8 +426,8 @@
     display: inline-block;
     width: 20px;
     height: 20px;
-    border: 2px solid #f3f3f3;
-    border-top: 2px solid #007bff;
+    border: 2px solid var(--sc-spinner-bg);
+    border-top: 2px solid var(--sc-spinner-accent);
     border-radius: 50%;
     animation: sc-spin 1s linear infinite;
     margin-right: 8px;
@@ -356,18 +440,18 @@
 
 /* 메시지 */
 .sc-error-message {
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+    background: var(--sc-error-bg);
+    color: var(--sc-error-text);
+    border: 1px solid var(--sc-error-border);
     border-radius: 4px;
     padding: 12px;
     margin-bottom: 16px;
 }
 
 .sc-success-message {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+    background: var(--sc-success-bg);
+    color: var(--sc-success-text);
+    border: 1px solid var(--sc-success-border);
     border-radius: 4px;
     padding: 12px;
     margin-bottom: 16px;
