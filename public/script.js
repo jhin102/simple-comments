@@ -24,16 +24,9 @@ class SimpleComments {
     
     async init() {
         try {
-            // IP 주소 가져오기
             await this.getUserIp();
-            
-            // 좋아요 상태 로드
             await this.loadLikes();
-            
-            // 댓글 로드
             await this.loadComments();
-            
-            // 이벤트 리스너 설정
             this.setupEventListeners();
             
         } catch (error) {
@@ -137,17 +130,26 @@ class SimpleComments {
         }
         
         commentsList.innerHTML = comments.map(comment => `
-            <div class="sc-comment-card">
+            <div class="sc-comment-card" id="comment-${comment.commentId}">
                 <div class="sc-comment-header">
                     <span class="sc-comment-nickname">${this.escapeHtml(comment.nickname)} (${this.escapeHtml(comment.ip)})</span>
                     <div class="sc-comment-meta">
                         <span class="sc-comment-time">${this.formatTime(comment.createdAt)}</span>
                         <button class="sc-delete-button ${comment.ip === this.userIp ? '' : 'sc-hidden'}" 
-                                onclick="app.deleteComment('${comment.commentId}')"
+                                onclick="app.showDeleteForm('${comment.commentId}')"
                                 title="삭제">×</button>
                     </div>
                 </div>
                 <div class="sc-comment-content">${this.escapeHtml(comment.content)}</div>
+                <div class="sc-delete-form" id="delete-form-${comment.commentId}" style="display: none;">
+                    <input type="password" 
+                           class="sc-delete-password" 
+                           id="delete-password-${comment.commentId}"
+                           placeholder="비밀번호 (4자리)" 
+                           maxlength="4">
+                    <button class="sc-delete-confirm" onclick="app.confirmDelete('${comment.commentId}')">확인</button>
+                    <button class="sc-delete-cancel" onclick="app.cancelDelete('${comment.commentId}')">취소</button>
+                </div>
             </div>
         `).join('');
     }
@@ -164,7 +166,6 @@ class SimpleComments {
         
         let paginationHtml = '';
         
-        // 이전 페이지 버튼
         paginationHtml += `
             <button ${this.currentPage === 1 ? 'disabled' : ''} 
                     onclick="app.loadComments(${this.currentPage - 1})">
@@ -172,7 +173,6 @@ class SimpleComments {
             </button>
         `;
         
-        // 페이지 번호들
         const startPage = Math.max(1, this.currentPage - 2);
         const endPage = Math.min(this.totalPages, this.currentPage + 2);
         
@@ -185,7 +185,6 @@ class SimpleComments {
             `;
         }
         
-        // 다음 페이지 버튼
         paginationHtml += `
             <button ${this.currentPage === this.totalPages ? 'disabled' : ''} 
                     onclick="app.loadComments(${this.currentPage + 1})">
@@ -205,7 +204,6 @@ class SimpleComments {
         const password = document.getElementById('sc-password').value.trim();
         const content = document.getElementById('sc-content').value.trim();
         
-        // 유효성 검사
         if (!nickname) {
             this.showError('닉네임을 입력해주세요.');
             return;
@@ -249,12 +247,10 @@ class SimpleComments {
             if (data.success) {
                 this.showSuccess('댓글이 등록되었습니다.');
                 
-                // 폼 초기화
                 document.getElementById('sc-nickname').value = '';
                 document.getElementById('sc-password').value = '';
                 document.getElementById('sc-content').value = '';
                 
-                // 댓글 리스트 새로고침
                 await this.loadComments(this.currentPage);
             } else {
                 this.showError(data.message || '댓글 등록에 실패했습니다.');
@@ -268,9 +264,45 @@ class SimpleComments {
         }
     }
     
-    async deleteComment(commentId) {
-        const password = prompt('댓글을 삭제하려면 비밀번호를 입력하세요:');
-        if (!password) return;
+    showDeleteForm(commentId) {
+        document.querySelectorAll('.sc-delete-form').forEach(form => {
+            form.style.display = 'none';
+        });
+        
+        const form = document.getElementById(`delete-form-${commentId}`);
+        if (form) {
+            form.style.display = 'flex';
+            const passwordInput = document.getElementById(`delete-password-${commentId}`);
+            if (passwordInput) {
+                setTimeout(() => passwordInput.focus(), 100);
+            }
+        }
+    }
+    
+    cancelDelete(commentId) {
+        const form = document.getElementById(`delete-form-${commentId}`);
+        if (form) {
+            form.style.display = 'none';
+            const passwordInput = document.getElementById(`delete-password-${commentId}`);
+            if (passwordInput) {
+                passwordInput.value = '';
+            }
+        }
+    }
+    
+    async confirmDelete(commentId) {
+        const passwordInput = document.getElementById(`delete-password-${commentId}`);
+        const password = passwordInput ? passwordInput.value.trim() : '';
+        
+        if (!password) {
+            this.showError('비밀번호를 입력해주세요.');
+            return;
+        }
+        
+        if (password.length !== 4) {
+            this.showError('비밀번호는 4자리입니다.');
+            return;
+        }
         
         try {
             const response = await fetch(`/api/comments/${commentId}`, {
@@ -298,17 +330,14 @@ class SimpleComments {
     }
     
     setupEventListeners() {
-        // 좋아요 버튼
         document.getElementById('sc-likeButton').addEventListener('click', () => {
             this.toggleLike();
         });
         
-        // 댓글 등록 버튼
         document.getElementById('sc-submitButton').addEventListener('click', () => {
             this.submitComment();
         });
         
-        // Enter 키로 댓글 등록
         document.getElementById('sc-content').addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === 'Enter') {
                 this.submitComment();
@@ -328,7 +357,6 @@ class SimpleComments {
         const container = document.getElementById('sc-messageContainer');
         container.innerHTML = `<div class="sc-${type}-message">${message}</div>`;
         
-        // 3초 후 메시지 제거
         setTimeout(() => {
             container.innerHTML = '';
         }, 3000);

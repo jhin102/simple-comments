@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "npx http-server public -p 3000 -o",
     "build": "echo 'No build step required'",
-    "deploy": "vercel --prod"
+    "deploy": "vercel --prod",
+    "migrate": "node scripts/migrate.js"
   },
   "dependencies": {
     "pg": "^8.12.0",

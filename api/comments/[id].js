@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import { getClientIp } from '../../lib/utils.js';
 
 export default async function handler(req, res) {
-    // CORS 헤더 설정
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -32,7 +31,6 @@ async function deleteComment(req, res) {
     const { id: commentId } = req.query;
     const { password } = req.body;
     
-    // 서버에서 IP 추출
     const ip = getClientIp(req);
     
     if (!commentId || !password) {
@@ -43,7 +41,6 @@ async function deleteComment(req, res) {
     }
     
     try {
-        // 댓글 조회
         const commentResult = await pool.query(
             `SELECT comment_id, password_hash, ip as comment_ip
             FROM comments 
@@ -60,7 +57,6 @@ async function deleteComment(req, res) {
         
         const comment = commentResult.rows[0];
         
-        // IP 확인 (본인 댓글인지 체크)
         if (comment.comment_ip !== ip) {
             return res.status(403).json({
                 success: false,
@@ -68,7 +64,6 @@ async function deleteComment(req, res) {
             });
         }
         
-        // 비밀번호 확인
         const isPasswordValid = await bcrypt.compare(password, comment.password_hash);
         
         if (!isPasswordValid) {
@@ -78,7 +73,6 @@ async function deleteComment(req, res) {
             });
         }
         
-        // 댓글 삭제
         await pool.query(
             `DELETE FROM comments WHERE comment_id = $1`,
             [commentId]

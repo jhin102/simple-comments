@@ -22,7 +22,7 @@
                 댓글 <span>5</span>개
             </div>
             <div id="sc-commentsList">
-                <!-- 댓글 1 -->
+                <!-- 댓글 1 (삭제 폼 열린 상태) -->
                 <div class="sc-comment-card">
                     <div class="sc-comment-header">
                         <span class="sc-comment-nickname">홍길동 (192.168.0.1)</span>
@@ -32,6 +32,14 @@
                         </div>
                     </div>
                     <div class="sc-comment-content">정말 유용한 정보네요! 감사합니다 😊</div>
+                    <div class="sc-delete-form" style="display: flex;">
+                        <input type="password" 
+                               class="sc-delete-password" 
+                               placeholder="비밀번호 (4자리)" 
+                               maxlength="4">
+                        <button class="sc-delete-confirm">확인</button>
+                        <button class="sc-delete-cancel">취소</button>
+                    </div>
                 </div>
 
                 <!-- 댓글 2 -->

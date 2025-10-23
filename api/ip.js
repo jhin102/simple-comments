@@ -1,7 +1,6 @@
 import { getClientIp } from '../lib/utils.js';
 
 export default function handler(req, res) {
-    // CORS 헤더 설정
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -16,7 +15,6 @@ export default function handler(req, res) {
     }
     
     try {
-        // IP 주소 추출
         const ip = getClientIp(req);
         
         res.status(200).json({

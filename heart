@@ -28,7 +28,7 @@
   <g transform="translate(64,5)">
     <use href="#heart-shape"
          transform="translate(0,0) scale(1,1)"
-         fill="#ff9eb6"
+         fill="#ff4757"
     />
   </g>
 </svg>
