@@ -1,7 +1,7 @@
 import pool from '../lib/db.js';
 import bcrypt from 'bcryptjs';
 import { getClientIp } from '../lib/utils.js';
-import { ensureTablesExist } from '../lib/schema.js';
+import { isTableNotExistsError, createTables } from '../lib/schema.js';
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -45,8 +45,6 @@ async function getComments(req, res) {
     const offset = (pageNum - 1) * maxPerPage;
     
     try {
-        await ensureTablesExist();
-        
         const commentsResult = await pool.query(
             `SELECT comment_id, nickname, content, ip, created_at
             FROM comments 
@@ -79,6 +77,14 @@ async function getComments(req, res) {
             maxPerPage: maxPerPage
         });
     } catch (error) {
+        if (isTableNotExistsError(error)) {
+            try {
+                await createTables();
+                return await getComments(req, res);
+            } catch (retryError) {
+                console.error('테이블 생성 후 재시도 오류:', retryError);
+            }
+        }
         console.error('댓글 조회 오류:', error);
         res.status(500).json({
             success: false,
@@ -142,12 +148,12 @@ async function createComment(req, res) {
             }
         }
     } catch (error) {
-        console.error('Rate limiting 체크 오류:', error);
+        if (!isTableNotExistsError(error)) {
+            console.error('Rate limiting 체크 오류:', error);
+        }
     }
     
     try {
-        await ensureTablesExist();
-        
         const saltRounds = 10;
         const passwordHash = await bcrypt.hash(password, saltRounds);
         
@@ -164,6 +170,14 @@ async function createComment(req, res) {
             message: '댓글이 등록되었습니다'
         });
     } catch (error) {
+        if (isTableNotExistsError(error)) {
+            try {
+                await createTables();
+                return await createComment(req, res);
+            } catch (retryError) {
+                console.error('테이블 생성 후 재시도 오류:', retryError);
+            }
+        }
         console.error('댓글 생성 오류:', error);
         res.status(500).json({
             success: false,

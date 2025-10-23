@@ -1,5 +1,5 @@
 import pool from '../lib/db.js';
-import { ensureTablesExist } from '../lib/schema.js';
+import { isTableNotExistsError, createTables } from '../lib/schema.js';
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -39,8 +39,6 @@ async function getLikes(req, res) {
     }
     
     try {
-        await ensureTablesExist();
-        
         const totalResult = await pool.query(
             `SELECT COUNT(*) as total FROM likes WHERE page_id = $1`,
             [id]
@@ -60,6 +58,14 @@ async function getLikes(req, res) {
             liked: liked
         });
     } catch (error) {
+        if (isTableNotExistsError(error)) {
+            try {
+                await createTables();
+                return await getLikes(req, res);
+            } catch (retryError) {
+                console.error('테이블 생성 후 재시도 오류:', retryError);
+            }
+        }
         console.error('좋아요 조회 오류:', error);
         res.status(500).json({
             success: false,
@@ -79,8 +85,6 @@ async function toggleLike(req, res) {
     }
     
     try {
-        await ensureTablesExist();
-        
         const existingLike = await pool.query(
             `SELECT 1 FROM likes WHERE page_id = $1 AND ip = $2`,
             [id, ip]
@@ -115,6 +119,14 @@ async function toggleLike(req, res) {
             liked: liked
         });
     } catch (error) {
+        if (isTableNotExistsError(error)) {
+            try {
+                await createTables();
+                return await toggleLike(req, res);
+            } catch (retryError) {
+                console.error('테이블 생성 후 재시도 오류:', retryError);
+            }
+        }
         console.error('좋아요 토글 오류:', error);
         res.status(500).json({
             success: false,
